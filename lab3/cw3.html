@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cw3</title>
+    <style>
+           *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .wrapper
+        {
+           
+            width: 100%;
+            min-height: 100vh;
+            
+            background-color: lightblue;
+            display: flex;
+            justify-content: start;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            
+        }
+        .filtering
+        {
+            width: 90%;
+            height: 100px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: black;
+            border-radius: 15px;
+            flex-direction: row;
+            color: white;
+            font-size: 1.5rem;
+           
+        }
+        input
+        {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid white;
+            font-size: 1.5rem;
+        }
+        select
+        {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid white;
+            font-size: 1.5rem;
+        }
+        button{
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .catalog
+        {
+            width: 90%;
+           
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            color: white;
+            background-color: black;
+            padding: 25px;
+            border-radius: 15px;
+        
+        }
+        table{
+            border: 1px solid white;
+            width: 100%;
+            border-collapse: collapse;
+            padding: 5px;
+          
+        }
+        tr
+        {
+            border: 1px solid white;
+            padding: 5px;
+        }
+        td
+        {
+            border: 1px solid white;
+            padding: 5px;
+        }
+        img{
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="filtering">
+            <div>
+            <label for="filter">Filter:</label>
+            <input type="text" name="filter" id="filter">
+            </div>
+            <div>
+                <label for="sort">Sorting:</label>
+                <select name="sort" id="sort">
+                    <option value="DESC">Descending</option>
+                    <option value="ASC">Ascending</option>
+                    <option value="DEFAULT" selected>Default</option>
+                </select>
+            </div>
+            <div>
+                <button id="search">Search</button>
+            </div>
+        </div>
+        <div class="catalog">
+            <table>
+
+            </table>
+
+        </div>
+    </div>
+    <script>
+        async function getCatalog()
+        {
+            const filter=document.querySelector('#filter').value;
+            const sort=document.querySelector('#sort').value;
+            let response = await fetch(' https://dummyjson.com/products ');
+            let catalog = await response.json();
+            const catalogTable = document.querySelector('.catalog > table');
+            catalogTable.innerHTML='';
+            catalog=catalog.products.slice(0,30);
+            if(filter)
+            {
+                catalog=catalog.filter(product => product.title.toLowerCase().includes(filter.toLowerCase()));
+            }
+            switch (sort){
+                case 'ASC':
+                    catalog=catalog.sort((a,b) => a.title.localeCompare(b.title));
+                    break;
+                case 'DESC':
+                    catalog=catalog.sort((a,b) => b.title.localeCompare(a.title));
+                    break;
+                case 'DEFAULT':
+                    break;
+            }
+
+            catalog.forEach(product => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                <td><img class="img" src="${product.images[0]}"/></td>
+                <td>${product.title}</td>
+                <td>${product.description}</td>
+                `;
+                
+                catalogTable.appendChild(tr);
+            });
+
+
+        }
+        document.getElementById('search').addEventListener('click',getCatalog);
+
+       
+   
+    
+       
+
+    </script>
+
+    
+</body>
+</html>

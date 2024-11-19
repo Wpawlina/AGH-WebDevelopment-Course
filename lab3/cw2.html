@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw 2</title>
+    <style>
+        *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .wrapper
+        {
+            width: 100%;
+            height: 100vh;
+            background-color: lightblue;
+            display: flex;
+            justify-content: center;
+            
+        }
+        .controls
+        {
+            width: 300px;
+            height: 40%;
+          
+            
+
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            border-radius: 15px;
+            flex-direction: column;
+           
+        }
+        form{
+            color:#FFF;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5em;
+        }
+    </style>
+        
+</head>
+<body>
+    <div class="wrapper">
+        <div class="controls">
+            <form action="" id="form">
+                <div>
+                <label for="min">Min length:</label>
+                <input type="number" name="min" id="min" min="1" value="1" >
+                </div>
+                <div>
+                    <label for="max">Max length:</label>
+                    <input type="number" name="max" id="max" min="2" value="10">
+                </div>
+                <div>
+                    <label for="Cletters">Capitlized letters:
+                    <input type="checkbox" id="Cletters" name="Cletters" value="Yes" > 
+                </div>
+                <div>
+                    <label for="Schar">Special characters:
+                    <input type="checkbox" id="Schar" name="Schar" value="Yes"> 
+                </div>
+                <div>
+                    <button id="generate">Genrate password</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+    <script>
+    const smallLetters = 'abcdefghijklmnopqrstuvwxyz'.split('');
+    const capLetters='abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('')
+    const specialCharacters = '!@#$%^&*()_+[]{}|;:,.<>?'.split('');
+    const form=document.querySelector('form')
+
+    
+    
+
+    
+    document.querySelector('#generate').addEventListener('click',(event)=>{
+        event.preventDefault()
+        let passwordLetters = [];
+        
+        passwordLetters = [...smallLetters]
+      
+        
+
+        if(form.Cletters.checked)
+        {
+            passwordLetters = [...passwordLetters,...capLetters]
+        }
+        if(form.Schar.checked)
+        {
+            passwordLetters = [...passwordLetters,...specialCharacters]
+        }
+        
+        let password=''
+        for(let i=parseInt(form.min.value);i<= parseInt(form.max.value);i++)
+        {
+            password+=passwordLetters[Math.floor(Math.random()*passwordLetters.length)]
+            console.log(password)
+        }
+        
+        alert(password)
+
+
+    })
+
+
+    
+    </script>
+    
+</body>
+</html>

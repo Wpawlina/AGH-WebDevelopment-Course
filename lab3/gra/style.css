@@ -1,0 +1,67 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+audio{
+    display: none;
+}
+
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #1e1f21;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+#playButton{
+    width: 200px;
+    height: 100px;
+    background-color: #8f0e0e;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ccc;
+    transition: background-color 0.3s;
+}
+
+
+#playButton:hover{
+    background-color: #b00;
+}
+
+
+.game
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 50px;
+    gap: 50px 0px;
+}
+
+#gameCanvas{
+    width: 70%;
+    height: auto;
+    background-image: url('board-bg.jpg');
+    background-size: 100% 100%;
+    cursor: url('aim.png') 50 50, auto;
+}
+#zombie{
+    transition: position 0.5s;
+  
+
+}
+
+
+
+

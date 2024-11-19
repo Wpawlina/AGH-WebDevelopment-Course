@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cw1</title>
+    <style>
+        *
+        {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .wrapper
+        {
+            width: 100%;
+            height: 100vh;
+            background-color: lightblue;
+            display: flex;
+            justify-content: center;
+            
+        }
+        .timer
+        {
+            width: 300px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            border-radius: 15px;
+            flex-direction: column;
+           
+        }
+        .time1,.time2
+        {
+            color: white;
+            font-size: 30px;
+        }
+        .buttons
+        {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 10px;
+           
+        }
+        button{
+            background-color: white;
+            padding: 2px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="timer">
+            <div class="time1"><span class="minute"></span>min <span  class="second"> </span>s</div>
+            <div class="time2"> <span  class="second"> </span>s</div>
+            <div class="buttons">
+                <button id="start">Start</button>
+                <button id="stop">Stop</button>
+                <button id="reset">Reset</button>
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        const minute = document.querySelectorAll('.minute');
+        const second = document.querySelectorAll('.second');
+        const time1=document.querySelector('.time1');
+        const time2=document.querySelector('.time2');
+
+       
+      
+    
+        let time = 0;
+        time1.style.display="none";
+        time2.style.display="block";
+        second[1].innerHTML = time;
+        let timeCount;
+       
+        document.querySelector('#start').addEventListener('click', () => {
+            timeCount=setInterval(() => {
+                time++;
+                if(time< 60)
+                {
+                    time1.style.display="none";
+                    time2.style.display="block";
+                    second[1].innerHTML = time;
+                    
+    
+                }
+                else
+                {
+                    time1.style.display="block";
+                    time2.style.display="none";
+                    minute[0].innerHTML = Math.floor(time / 60);
+                    second[0].innerHTML = time % 60;
+                }
+               
+            }, 1000);
+            
+        });
+        document.querySelector('#stop').addEventListener('click', () => {
+            clearInterval(timeCount);
+        });
+        document.querySelector('#reset').addEventListener('click', () => {
+            clearInterval(timeCount);
+            time = 0;
+            time1.style.display="none";
+            time2.style.display="block";
+            second[1].innerHTML = time;
+        });
+    </script>
+    
+</body>
+</html>

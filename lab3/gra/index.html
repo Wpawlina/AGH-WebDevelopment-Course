@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zombie Attack</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <audio id="music" controls loop>
+        <source src="sad-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div style="display:none;">
+        <img  id="zombie"  src="walkingdead.png">
+        
+        <img id="fullHeart"  src="full_heart.png" alt="full_heart">
+        <img id="emptyHeart" src="empty_heart.png" alt="empty_heart">
+        </div>
+    <div class="wrapper">
+        <div class="game">
+            <canvas id="gameCanvas"></canvas>
+            <div class="play">
+                <button id="playButton">Play</button>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
