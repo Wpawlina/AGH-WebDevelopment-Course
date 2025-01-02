@@ -1,7 +1,7 @@
 class Zombie{
     constructor(canvas,size,speed,img){
         
-        this.width = 20 + size * 5; // Rozmiar na canvasie
+        this.width = 100 + size * 20; // Rozmiar na canvasie
         this.height =this.width * (312 / 200);
         this.speed = speed;
         this.image = img;
@@ -33,6 +33,8 @@ class Game{
 
     init = ( )=>{
         this.canvas = document.getElementById('gameCanvas');
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext('2d');
         this.lives=this.maxLives;
         this.score=0;
@@ -54,10 +56,10 @@ class Game{
 
     drawHearts=()=>{
         for(let i=0;i<this.lives;i++){
-            this.ctx.drawImage(this.full_heart,10+i*20,10,15,15);
+            this.ctx.drawImage(this.full_heart,10+i*60,10,45,45);
         }
         for(let i=0; i < this.maxLives-this.lives; i++){
-            this.ctx.drawImage(this.empty_heart,10+(this.lives+i)*20,10,15,15);
+            this.ctx.drawImage(this.empty_heart,10+(this.lives+i)*60,10,45,45);
         }
     }
 
@@ -74,14 +76,15 @@ class Game{
     drawScore=()=>{
         this.ctx.font = "20px Arial";
         this.ctx.fillStyle = "white";
-        this.ctx.fillText(this.printScore(), this.canvas.width-60, 20);
+        this.ctx.font="64px Arial";
+        this.ctx.fillText(this.printScore(), this.canvas.width-200, 64);
     }
 
     drawZombie = (zombie) => {
         this.ctx.drawImage(
             zombie.image,               // Obraz sprite'ów
-            zombie.frameX * 40, 0,     // Wycięcie klatki (X = klatka * 200, Y = 0)
-            40, 62,                   // Rozmiar jednej klatki w sprite sheet
+            zombie.frameX * 200, 0,     // Wycięcie klatki (X = klatka * 200, Y = 0)
+            200, 312,                   // Rozmiar jednej klatki w sprite sheet
             zombie.x, zombie.y,         // Pozycja na canvasie
             zombie.width, zombie.height // Rozmiar zombie na canvasie
         );
@@ -92,14 +95,17 @@ class Game{
         let y=(event.clientY-this.canvas.getBoundingClientRect().top)/this.canvas.getBoundingClientRect().height*this.canvas.height;
         
         let hitAny=false;
-        for(let i=0;i<this.zombies.length;i++){
-            if(x>this.zombies[i].x && x<this.zombies[i].x+this.zombies[i].width && y>this.zombies[i].y && y<this.zombies[i].y+this.zombies[i].height){
-                this.zombies.splice(i,1);
+        let zombiesReversed=this.zombies.slice().reverse();
+        for(let i=0;i<zombiesReversed.length;i++){
+            if(x>zombiesReversed[i].x && x<zombiesReversed[i].x+zombiesReversed[i].width && y>zombiesReversed[i].y && y<zombiesReversed[i].y+zombiesReversed[i].height){
+                zombiesReversed.splice(i,1);
                 this.score+=20;
                 hitAny=true;
                 break;
             }
         }
+        this.zombies=zombiesReversed.reverse();
+      
         if(!hitAny){
             this.score-=5;
             this.score=Math.max(0,this.score);
@@ -160,10 +166,10 @@ class Game{
         this.gameRunning=false;
         this.music.pause();
         this.playButton.style.display='block';
-        this.ctx.font = "30px Arial";
+        this.ctx.font = "64px Arial";
         this.ctx.fillStyle = "white";
-        this.ctx.fillText("Game Over", this.canvas.width/2-100, this.canvas.height/2);
-        this.ctx.fillText("Score: "+this.printScore(), this.canvas.width/2-100, this.canvas.height/2+40);
+        this.ctx.fillText("Game Over", this.canvas.width/2-150, 100);
+        this.ctx.fillText("Score: "+this.printScore(), this.canvas.width/2-150, 200);
     }
 
     updateGameArea=()=>{
@@ -173,7 +179,7 @@ class Game{
         const deltaTime = 16;
         this.zombies = this.zombies.filter(zombie => {
             zombie.updateAnimation(deltaTime); 
-            zombie.x -= 0.1 * zombie.speed;
+            zombie.x -= 0.8* zombie.speed;
             this.drawZombie(zombie);
             if (zombie.x <= 0) {
                 this.lives--;
